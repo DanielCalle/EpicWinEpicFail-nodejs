@@ -1,0 +1,24 @@
+{
+  "name": "EpicWin",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Calle",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.13.0",
+    "mongoose": "~4.0.6",
+    "body-parser": "~1.13.1",
+    "lodash": "~3.10.0"
+  },
+  "devDependencies": {
+    "supertest": "~1.0.1",
+    "supertest-as-promised": "~2.0.1",
+    "chai": "~3.0.0",
+    "chai-as-promised": "~5.1.0",
+    "mocha": "~2.2.5"
+  }
+}
