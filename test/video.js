@@ -16,8 +16,8 @@ describe('Coleccion de Videos [/videos]', function() {
     mongoose.disconnect(done);
     mongoose.models = {};
   });
-  describe('POST', function() {
-    it('deberia crear un video', function(done) {
+  describe('POST /videos', function() {
+    it('Crear un registro', function(done) {
       var data =
       {
         "video":{
@@ -61,7 +61,7 @@ describe('Coleccion de Videos [/videos]', function() {
   });
 
   describe('GET /videos/:id', function() {
-    it('deberia obtener una nota existente', function(done) {
+    it('Obtener por id un registro de video existente', function(done) {
       var id;
       var data =
       {
@@ -82,7 +82,7 @@ describe('Coleccion de Videos [/videos]', function() {
         .send(data)
         .expect(201)
         .expect('Content-Type', /application\/json/)
-      .then(function getNota(res) {
+      .then(function getVideo(res) {
         id = res.body._id;
 
         return request.get('/videos/' + id)
