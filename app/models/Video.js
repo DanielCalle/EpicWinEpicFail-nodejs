@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var VideoSchema = new Schema({
   category: ObjectId,
@@ -7,13 +8,12 @@ var VideoSchema = new Schema({
   title: String,
   win: Boolean,
   videoId: String,
-  response: String,
   start: Number,
   pause: Number,
   stop: Number,
   active: { type: Boolean, default: true},
-  created: { type: Date, default: Date.now },
-  updated: { type: Date, default: Date.now }
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 });
 
 var model = mongoose.model('video', VideoSchema);

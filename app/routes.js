@@ -1,36 +1,15 @@
 var express = require('express'),
     router = express.Router(),
-    moongose = require('mongoose'),
-    Video = require('./models/Video.js');
+    video = require('./controllers/videoController');
 
-router.get('/videos',function(req,res){
-  Video.find(function(err, videos) {
-    if(err) res.send(500, err.message);
-    console.log('GET /videos');
-    res.status(200).jsonp(videos);
-  });
-});
+router.get('/videos', video.all);
 
-router.get('/videos/:id',function(req,res){
-  var id = req.params.id;
-  Video.findById(id,function(err, video) {
-    if(err) res.status(500);
-    res.status(200).jsonp(video);
-  });
-});
+router.get('/videos/:id', video.byId);
 
-router.post('/videos',function(req, res) {
-  // manipulate request
-  var newVideo = req.body.video;
+router.post('/videos', video.create);
 
-  // save to storage
-  Video.create(newVideo)
-    .then(function(video) {
-      // response
-      res
-        .status(201)
-        .json(video.toJSON());
-    });
-});
+router.put('/videos/:id', video.update);
+
+router.delete('/videos/:id', video.delete);
 
 module.exports = router;
