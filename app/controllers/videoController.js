@@ -38,25 +38,25 @@ controller.create = function(req, res) {
         .json({
           video: video.toClient()
           });
-    });
-  };
+  });
+};
 
-  controller.update = function (req, res) {
-    var id = req.params.id;
-    var updatedVideo = req.body.video;
-    if(!updatedVideo) res.status(400).send();
-    Video.update({_id:id}, updatedVideo, function(err, results) {
+controller.update = function (req, res) {
+  var id = req.params.id;
+  var updatedVideo = req.body.video;
+  if(!updatedVideo) res.status(400).send();
+  Video.update({_id:id}, updatedVideo, function(err, results) {
 
-      if(err)res.status(500).send(err);
-        Video.findById(id,function(err,video){
-          res.status(200).json({
-              video: video.toClient()
-            });
-        });
+    if(err)res.status(500).send(err);
+      Video.findById(id,function(err,video){
+        res.status(200).json({
+            video: video.toClient()
+          });
+      });
 
-    });
+  });
 
-  };
+};
 
 controller.delete = function (req, res) {
   var id = req.params.id;
