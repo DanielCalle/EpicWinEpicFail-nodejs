@@ -16,6 +16,17 @@ var VideoSchema = new Schema({
   updated_at: { type: Date, default: Date.now }
 });
 
+VideoSchema.method('toClient', function() {
+    var obj = this.toObject();
+
+    //Rename fields
+    obj.id = obj._id;
+    delete obj._id;
+    delete obj.__v;
+
+    return obj;
+});
+
 var model = mongoose.model('video', VideoSchema);
 
 module.exports = model;

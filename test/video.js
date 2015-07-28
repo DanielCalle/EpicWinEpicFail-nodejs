@@ -3,7 +3,7 @@ var api = require('../server.js');
 var host = process.env.API_TEST_HOST || api;
 var mongoose = require('mongoose');
 // var host = 'http://localhost:3000';
-
+var id;
 request = request(host);
 var data =
 {
@@ -46,7 +46,7 @@ describe('Coleccion de Videos [/videos]', function() {
           expect(video).to.have.property("pause", data.pause);
           expect(video).to.have.property("stop", data.stop);
 
-          data.id = video._id;
+          id = video.id;
           done();
         });
     });
@@ -54,7 +54,7 @@ describe('Coleccion de Videos [/videos]', function() {
   describe('GET /videos/:id', function() {
     it('Obtener un video', function(done) {
 
-      request.get('/videos/' + data.id)
+      request.get('/videos/' + id)
         .set('Accept', 'application/json')
         .send()
         .expect(200)
@@ -63,7 +63,7 @@ describe('Coleccion de Videos [/videos]', function() {
 
         video = res.body.video;
 
-        expect(video).to.have.property("_id", data.id);
+        expect(video).to.have.property("id", id);
         expect(video).to.have.property("title", data.title);
         expect(video).to.have.property("win", data.win);
         expect(video).to.have.property("videoId", data.videoId);
@@ -102,7 +102,7 @@ describe('Coleccion de Videos [/videos]', function() {
       var updateVideo = data;
       updateVideo.title = 'Rocky';
 
-      request.put('/videos/' + updateVideo.id)
+      request.put('/videos/' + id)
         .set('Accept', 'application/json')
         .send({ video : updateVideo})
         .expect(200)
@@ -111,7 +111,7 @@ describe('Coleccion de Videos [/videos]', function() {
 
         var video = res.body.video;
 
-        expect(video).to.have.property("_id", updateVideo.id);
+        expect(video).to.have.property("id", id);
         expect(video).to.have.property("title", updateVideo.title);
         expect(video).to.have.property("win", updateVideo.win);
         expect(video).to.have.property("videoId", updateVideo.videoId);
@@ -127,7 +127,7 @@ describe('Coleccion de Videos [/videos]', function() {
   });
   describe('DELETE /videos/:id', function() {
     it('Borrar un video', function(done) {
-      request.delete('/videos/' + data.id)
+      request.delete('/videos/' + id)
         .set('Accept', 'application/json')
         .send()
         .expect(204)
@@ -139,7 +139,7 @@ describe('Coleccion de Videos [/videos]', function() {
           expect(body).to.be.empty;
 
           // Probamos que de verdad no exista
-          request.get('/videos/' + data.id)
+          request.get('/videos/' + id)
             .set('Accept', 'application/json')
             .send()
             .expect(400);
