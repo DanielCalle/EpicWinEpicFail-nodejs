@@ -6,10 +6,25 @@ var http = require('http'),
     router = require('./app/routes'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser');
+    passport = require('passport'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session');
+
+require('./app/passport')(passport);
 
 // Conf server
+app.use(express.static('public'));
+app.use(cookieParser());
 app.use(bodyParser.json('application/json'));
+app.use(session({
+  secret: conf.server.key,
+  saveUninitialized: true,
+  resave: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router);
+
 /**
  * Start server if we're not someone else's dependency
  */

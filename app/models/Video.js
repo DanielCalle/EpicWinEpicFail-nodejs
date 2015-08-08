@@ -12,8 +12,8 @@ var VideoSchema = new Schema({
   pause: Number,
   stop: Number,
   active: { type: Boolean, default: true},
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 VideoSchema.method('toClient', function() {
