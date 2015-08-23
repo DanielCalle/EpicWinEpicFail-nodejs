@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var UserScheme = new Schema({
+var UserSchema = new Schema({
   name: String,
   email: { type: String, index: { unique: true } },
   password: String,
@@ -15,6 +15,17 @@ var UserScheme = new Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-var model = mongoose.model('user', UserScheme);
+UserSchema.method('toClient', function() {
+  var obj = this.toObject();
+
+  //Rename fields
+  obj.id = obj._id;
+  delete obj._id;
+  delete obj.__v;
+
+  return obj;
+});
+
+var model = mongoose.model('user', UserSchema);
 
 module.exports = model;

@@ -17,14 +17,14 @@ var VideoSchema = new Schema({
 });
 
 VideoSchema.method('toClient', function() {
-    var obj = this.toObject();
+  var obj = this.toObject();
 
-    //Rename fields
-    obj.id = obj._id;
-    delete obj._id;
-    delete obj.__v;
+  //Rename fields
+  obj.id = obj._id;
+  delete obj._id;
+  delete obj.__v;
 
-    return obj;
+  return obj;
 });
 
 var model = mongoose.model('video', VideoSchema);

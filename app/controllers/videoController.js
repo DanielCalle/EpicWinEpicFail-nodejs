@@ -1,24 +1,34 @@
 var moongose = require('mongoose'),
-Video = require('../models/Video');
+  Video = require('../models/Video'),
+  queryParse = require('../helpers/queryParse');
 
 var controller = {};
 
 controller.all = function(req,res){
-  Video.find(function(err, videos) {
-    if(err) res.send(500, err.message);
-    for(var i in videos)
-      videos[i] = videos[i].toClient();
-    res.status(200).json({
-      videos: videos
-      });
-  });
+  conditions = queryParse(req.query.conditions);
+  projection = queryParse(req.query.projection);
+  options = queryParse(req.query.options);
+  if(conditions === 0 || projection === 0 || options === 0)
+    res.status(500).send();
+  else
+    Video.find(conditions, projection, options, function(err, videos) {
+      if(err) res.status(500).send(err.message);
+      for(var i in videos)
+        videos[i] = videos[i].toClient();
+      res.status(200).json({
+        videos: videos
+        });
+    });
 };
 
 controller.byId = function(req,res){
   var id = req.params.id;
   Video.findById(id,function(err, video) {
     if(err) res.status(500).send();
-    if(video===undefined||video===null) res.status(404).send();
+
+    if(video === undefined || video === null)
+      res.status(404).send();
+
     res.status(200).json({
         video: video.toClient()
       });
@@ -62,6 +72,7 @@ controller.delete = function (req, res) {
   var id = req.params.id;
   var video = Video.findById(id, function(err, video){
     if(video===undefined||video===null) res.status(404).send();
+
     Video.remove({_id: id}, function(err){
       if(err) res.status(500).send();
       res.status(204).send();
